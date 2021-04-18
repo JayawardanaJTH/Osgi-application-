@@ -57,7 +57,7 @@ public class AssignImpl implements IAssign {
 
 		for(Assign obj : assignDataList) {
 
-			if(1==id) {
+			if(obj.getId() == id) {
 
 				obj = assign;
 				return true;
@@ -72,7 +72,7 @@ public class AssignImpl implements IAssign {
 
 		for(Assign obj : assignDataList) {
 
-			if(1==id) {
+			if(obj.getId() == id) {
 
 				assignDataList.remove(obj);
 				return true;

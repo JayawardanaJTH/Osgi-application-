@@ -11,4 +11,5 @@ Import-Package: assignpublisher,
  studentpublisher,
  subjectpublisher,
  teacherpublisher
+Export-Package: adminsubscriber
 Bundle-ActivationPolicy: lazy

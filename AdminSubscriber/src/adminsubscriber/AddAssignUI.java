@@ -19,6 +19,12 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class AddAssignUI {
 
@@ -85,6 +91,12 @@ public class AddAssignUI {
 		panel.add(btnUpdateAssign);
 		
 		JButton btnDeleteAssign = new JButton("Delete assign");
+		btnDeleteAssign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DeleteAssignUI(studentService, subjectService, assignService);
+				frmAddSubjectTo.setVisible(false);
+			}
+		});
 		btnDeleteAssign.setBounds(10, 201, 185, 23);
 		panel.add(btnDeleteAssign);
 		
@@ -94,6 +106,28 @@ public class AddAssignUI {
 		panel_1.setLayout(null);
 		
 		cmbStudent = new JComboBox();
+		cmbStudent.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				String student = cmbStudent.getSelectedItem().toString().trim();
+				
+				Student student_obj = null;
+				
+				for(Student obj : studentList) {
+					
+					if(obj.getName().contentEquals(student)) {
+						student_obj = obj;
+						break;
+					}
+			}
+				loadSubject(student_obj.getGrade());
+			}
+		});
 		cmbStudent.setBounds(90, 11, 179, 28);
 		panel_1.add(cmbStudent);
 		
@@ -144,6 +178,7 @@ public class AddAssignUI {
 					Assign assign = new Assign(++counter, student_obj, subject_obj);
 					
 					assignService.addAssign(assign);
+					JOptionPane.showMessageDialog(frmAddSubjectTo, "Added success", "Data Saved", JOptionPane.PLAIN_MESSAGE);
 				}
 			}
 		});
@@ -156,6 +191,8 @@ public class AddAssignUI {
 	}
 	
 	private void loadData() {
+		cmbStudent.removeAllItems();
+		
 		studentList = new ArrayList<>();
 		subjectList = new ArrayList<>();
 		
@@ -171,12 +208,19 @@ public class AddAssignUI {
 			}
 		}
 		
+	}
+	
+	private void loadSubject(String grade) {
 		cmbSubject.addItem("Select");
 		
 		if(subjectList != null) {
 			
 			for(Subject obj : subjectList) {
-				cmbSubject.addItem(obj.getSubject_name());
+				
+				if(obj.getGrade().contentEquals(grade)) {
+					
+					cmbSubject.addItem(obj.getSubject_name());
+				}
 			}
 		}
 	}

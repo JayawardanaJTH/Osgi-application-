@@ -8,6 +8,7 @@ public class StudentImpl implements IStudent {
 	
 	@Override
 	public boolean addStudent(Student student) {
+		System.out.println(student);
 		studentList.add(student);
 		return true;
 	}

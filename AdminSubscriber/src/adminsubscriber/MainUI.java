@@ -6,19 +6,25 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import studentpublisher.IStudent;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainUI extends JFrame {
 
 	private JPanel contentPane;
 	private JButton btnStudent;
 
+	private IStudent studentService;
 
 	/**
 	 * Create the frame.
 	 */
-	public MainUI() {
+	public MainUI(IStudent studentService) {
 		setTitle("Amin Panel");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 540, 379);
@@ -33,6 +39,11 @@ public class MainUI extends JFrame {
 		menuPanel.setLayout(null);
 		
 		btnStudent = new JButton("Student");
+		btnStudent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new StudentUI(studentService);
+			}
+		});
 		btnStudent.setBounds(35, 48, 89, 23);
 		menuPanel.add(btnStudent);
 		

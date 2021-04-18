@@ -9,7 +9,7 @@ import studentpublisher.IStudent;
 import subjectpublisher.ISubject;
 import teacherpublisher.ITeacher;
 
-public class Activator implements BundleActivator {
+public class Activator implements BundleActivator{
 
 	private ServiceReference<?> studentServiceReference;
 	private ServiceReference<?> assignServiceReference;
@@ -35,11 +35,11 @@ public class Activator implements BundleActivator {
 
 //		teacherService = (ITeacher) bundleContext.getService(teacherServiceReference);
 		
+		System.out.println("Admin subscriber is started");	
 		MainUI frame = new MainUI(studentService, subjectService, assignService, teacherService);
-
-		
-//		MainUI frame = new MainUI(studentService);
 		frame.setVisible(true);
+//		MainUI frame = new MainUI(studentService);
+		
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
@@ -47,6 +47,7 @@ public class Activator implements BundleActivator {
 		bundleContext.ungetService(studentServiceReference);
 		bundleContext.ungetService(assignServiceReference);
 		bundleContext.ungetService(studentServiceReference);
+		bundleContext.ungetService(teacherServiceReference);
 	}
 
 }

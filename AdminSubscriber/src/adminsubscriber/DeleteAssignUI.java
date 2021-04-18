@@ -29,6 +29,7 @@ public class DeleteAssignUI {
 	private ArrayList<Assign> assigns = new ArrayList<>();
 	
 	private int selectedRow;
+	private DefaultTableModel tablemodel ;
 	/**
 	 * Create the application.
 	 */
@@ -98,7 +99,12 @@ public class DeleteAssignUI {
 		frmDeleteAssign.getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		
+		table.setModel(new DefaultTableModel(
+				new Object[][] {},
+				new String[] {
+						"ID", "Student", "Subject"
+				}
+				));
 		scrollPane.setViewportView(table);
 		
 		JButton btnDelete = new JButton("Delete");
@@ -119,7 +125,7 @@ public class DeleteAssignUI {
 				    if(option == 0) {
 				    	assignService.deleteAssign(assign.getId());
 				    	
-				    	table.removeAll();
+				    	tablemodel.setRowCount(0);
 				    	loadTableData();
 				    }
 					
@@ -130,34 +136,30 @@ public class DeleteAssignUI {
 		frmDeleteAssign.getContentPane().add(btnDelete);
 		frmDeleteAssign.setVisible(true);
 		
+		tablemodel = (DefaultTableModel) table.getModel();
 		loadTableData();
 	}
 	
 	private void loadTableData() {
 		assigns = assignService.getAllAssigns();
 		
-		if(assigns != null) {
+if(assigns != null) {
+			
+			Object[] data  = new Object[3];
 			
 			for(Assign obj : assigns) {
 				
-				assignsList.add(new Object[] {
-						obj.getId(),
-						obj.getStudent().getName(),
-						obj.getSubject().getSubject_name()
-				});
+				data[0] = obj.getId();
+				data[1] = obj.getStudent().getName();
+				data[2] = obj.getSubject().getSubject_name();
+						
+				tablemodel.addRow(data);
 			}
 		}
 		else {
-			assignsList.add(new Object[] {});
+			Object[] data  = new Object[3];
+			tablemodel.addRow(data);
 		}
-		
-		table.setModel(new DefaultTableModel(
-				assignsList.toArray(new Object[][] {}),
-				new String[] {
-						"ID", "Student", "Subject"
-				}
-				));
-		
 		
 	}
 }

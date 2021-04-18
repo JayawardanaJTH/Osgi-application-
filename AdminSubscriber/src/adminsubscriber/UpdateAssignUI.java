@@ -43,6 +43,7 @@ public class UpdateAssignUI {
 	private ArrayList<Subject> subjectList = new ArrayList<>();
 	
 	private int selectedRow;
+	private DefaultTableModel tablemodel ;
 	/**
 	 * Create the application.
 	 */
@@ -108,7 +109,12 @@ public class UpdateAssignUI {
 		frmUpdateAssign.getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		
+		table.setModel(new DefaultTableModel(
+				new Object[][] {},
+				new String[] {
+					"ID", "Student", "Subject"
+				}
+			));
 		scrollPane.setViewportView(table);
 		
 		JButton btnSelect = new JButton("Select");
@@ -170,7 +176,7 @@ public class UpdateAssignUI {
 				if(assignService.updateAssign(assign.getId(), assign)) {
 					JOptionPane.showMessageDialog(frmUpdateAssign, "Update success", "Data Updated", JOptionPane.PLAIN_MESSAGE);
 					
-					table.removeAll();
+					tablemodel.setRowCount(0);
 					loadTableData();
 				}
 				else {
@@ -179,6 +185,8 @@ public class UpdateAssignUI {
 		}});
 		btnUpdate.setBounds(318, 252, 89, 23);
 		frmUpdateAssign.getContentPane().add(btnUpdate);
+		
+		tablemodel = (DefaultTableModel) table.getModel();
 		
 		loadData();
 		loadTableData();
@@ -215,26 +223,22 @@ public class UpdateAssignUI {
 		
 		if(assigns != null) {
 			
+			Object[] data  = new Object[3];
+			
 			for(Assign obj : assigns) {
 				
-				assignsList.add(new Object[] {
-						obj.getId(),
-						obj.getStudent().getName(),
-						obj.getSubject().getSubject_name()
-				});
+				data[0] = obj.getId();
+				data[1] = obj.getStudent().getName();
+				data[2] = obj.getSubject().getSubject_name();
+						
+				tablemodel.addRow(data);
 			}
 		}
 		else {
-			assignsList.add(new Object[] {});
+			Object[] data  = new Object[3];
+			tablemodel.addRow(data);
 		}
 		
-		
-		table.setModel(new DefaultTableModel(
-				assignsList.toArray(new Object[][] {}),
-				new String[] {
-					"ID", "Student", "Subject"
-				}
-			));
 		
 	}
 }

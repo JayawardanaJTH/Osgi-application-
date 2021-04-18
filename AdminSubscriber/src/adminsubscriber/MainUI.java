@@ -99,6 +99,11 @@ public class MainUI extends JFrame {
 		JPanel panelBody = new JPanel();
 		panelBody.setBounds(168, 0, 356, 340);
 		contentPane.add(panelBody);
+		panelBody.setLayout(null);
+		
+		JButton btnLogOut = new JButton("Log Out");
+		btnLogOut.setBounds(150, 150, 89, 23);
+		panelBody.add(btnLogOut);
 	}
 
 }

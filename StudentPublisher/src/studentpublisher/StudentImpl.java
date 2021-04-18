@@ -8,6 +8,7 @@ public class StudentImpl implements IStudent {
 	
 	@Override
 	public boolean addStudent(Student student) {
+		System.out.println(student);
 		studentList.add(student);
 		return true;
 	}
@@ -46,6 +47,22 @@ public class StudentImpl implements IStudent {
 	@Override
 	public ArrayList<Student> get_all_students() {
 		return studentList;
+	}
+
+	@Override
+	public boolean updateStudent(String id, Student student) {
+		if(studentList.isEmpty()) {
+			return false;
+		}
+		else {
+			for(Student obj : studentList) {
+				if(obj.getId().equals(id)) {
+					obj = student;
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 }

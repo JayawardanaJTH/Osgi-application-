@@ -27,13 +27,18 @@ public class Activator implements BundleActivator {
 		assignServiceReference = bundleContext.getServiceReference(IAssign.class.getName());
 		subjectServiceReference = bundleContext.getServiceReference(ISubject.class.getName());
 //		teacherServiceReference = bundleContext.getServiceReference(ITeacher.class.getName());
+
 		
 		studentService = (IStudent) bundleContext.getService(studentServiceReference);
 		assignService = (IAssign) bundleContext.getService(assignServiceReference);
 		subjectService = (ISubject) bundleContext.getService(subjectServiceReference);
+
 //		teacherService = (ITeacher) bundleContext.getService(teacherServiceReference);
 		
 		MainUI frame = new MainUI(studentService, subjectService, assignService, teacherService);
+
+		
+//		MainUI frame = new MainUI(studentService);
 		frame.setVisible(true);
 	}
 
@@ -41,6 +46,7 @@ public class Activator implements BundleActivator {
 		
 		bundleContext.ungetService(studentServiceReference);
 		bundleContext.ungetService(assignServiceReference);
+		bundleContext.ungetService(studentServiceReference);
 	}
 
 }

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 public class StudentImpl implements IStudent {
 
-	private ArrayList<Student> studentList = new ArrayList<>();
+	private ArrayList<Student> studentList = new ArrayList<Student>();
 	
 	@Override
 	public boolean addStudent(Student student) {
-		System.out.println(student);
 		studentList.add(student);
 		return true;
 	}
@@ -55,9 +54,11 @@ public class StudentImpl implements IStudent {
 			return false;
 		}
 		else {
+			int i = -1;
 			for(Student obj : studentList) {
+				i =i + 1;
 				if(obj.getId().equals(id)) {
-					obj = student;
+					studentList.set(i, new Student(student.getId(),student.getName(),student.getGrade(),student.getAddress()));
 					return true;
 				}
 			}

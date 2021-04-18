@@ -8,8 +8,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import studentpublisher.IStudent;
+import studentpublisher.Student;
+
 import javax.swing.JTextField;
 
 public class UpdateStudentUI {
@@ -31,8 +34,8 @@ public class UpdateStudentUI {
 	private JLabel lblUpdateAddress;
 	private JTextField textFieldUpdateStudentId;
 	private JTextField textFieldUpdateStudentName;
-	private JTextField textFieldGrade;
-	private JTextField textFieldAddress;
+	private JTextField textFieldUpdateGrade;
+	private JTextField textFieldUpdateAddress;
 	private JButton btnUpdate;
 
 	/**
@@ -126,44 +129,120 @@ public class UpdateStudentUI {
 		frame.getContentPane().add(lblUpdateStudent);
 		
 		lblUpdateSutdentId = new JLabel("Student ID");
-		lblUpdateSutdentId.setBounds(195, 55, 88, 13);
+		lblUpdateSutdentId.setBounds(172, 59, 88, 13);
 		frame.getContentPane().add(lblUpdateSutdentId);
 		
 		lblUpdateStudentName = new JLabel("Student Name");
-		lblUpdateStudentName.setBounds(195, 98, 88, 13);
+		lblUpdateStudentName.setBounds(172, 102, 88, 13);
 		frame.getContentPane().add(lblUpdateStudentName);
 		
 		lblUpdateGrade = new JLabel("Grade");
-		lblUpdateGrade.setBounds(195, 144, 88, 13);
+		lblUpdateGrade.setBounds(172, 148, 88, 13);
 		frame.getContentPane().add(lblUpdateGrade);
 		
 		lblUpdateAddress = new JLabel("Address");
-		lblUpdateAddress.setBounds(195, 188, 88, 13);
+		lblUpdateAddress.setBounds(172, 192, 88, 13);
 		frame.getContentPane().add(lblUpdateAddress);
 		
 		textFieldUpdateStudentId = new JTextField();
-		textFieldUpdateStudentId.setBounds(309, 56, 117, 19);
+		textFieldUpdateStudentId.setBounds(235, 56, 117, 19);
 		frame.getContentPane().add(textFieldUpdateStudentId);
 		textFieldUpdateStudentId.setColumns(10);
 		
 		textFieldUpdateStudentName = new JTextField();
-		textFieldUpdateStudentName.setBounds(309, 99, 117, 19);
+		textFieldUpdateStudentName.setBounds(270, 99, 117, 19);
 		frame.getContentPane().add(textFieldUpdateStudentName);
 		textFieldUpdateStudentName.setColumns(10);
 		
-		textFieldGrade = new JTextField();
-		textFieldGrade.setBounds(309, 141, 117, 19);
-		frame.getContentPane().add(textFieldGrade);
-		textFieldGrade.setColumns(10);
+		textFieldUpdateGrade = new JTextField();
+		textFieldUpdateGrade.setBounds(270, 145, 117, 19);
+		frame.getContentPane().add(textFieldUpdateGrade);
+		textFieldUpdateGrade.setColumns(10);
 		
-		textFieldAddress = new JTextField();
-		textFieldAddress.setBounds(309, 185, 117, 19);
-		frame.getContentPane().add(textFieldAddress);
-		textFieldAddress.setColumns(10);
+		textFieldUpdateAddress = new JTextField();
+		textFieldUpdateAddress.setBounds(270, 189, 117, 19);
+		frame.getContentPane().add(textFieldUpdateAddress);
+		textFieldUpdateAddress.setColumns(10);
 		
 		btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(255, 232, 85, 21);
-		frame.getContentPane().add(btnUpdate);
-	}
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id, name, grade, address;
+				id = textFieldUpdateStudentId.getText().trim();
+				name = textFieldUpdateStudentName.getText().trim();
+				grade = textFieldUpdateGrade.getText().trim();
+				address = textFieldUpdateAddress.getText().trim();
+				
+				if(id.isEmpty()) {
+					JOptionPane.showMessageDialog( frame, "Please Add student ID number","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else if(name.isEmpty()) {
+					JOptionPane.showMessageDialog( frame, "Please add student name","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else if(grade.isEmpty()) {
+					JOptionPane.showMessageDialog( frame, "Please add grade","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else if(address.isEmpty()) {
+					JOptionPane.showMessageDialog( frame, "Please add address","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					try {
+							Student student = new Student(id,name,grade,address);
+							boolean isStudent = studentService.updateStudent(id,student);
+							if(isStudent) {
+								textFieldUpdateStudentId.setText("");
+								textFieldUpdateStudentName.setText("");
+								textFieldUpdateGrade.setText("");
+								textFieldUpdateAddress.setText("");
+								
+								JOptionPane.showMessageDialog( frame, "Student update sucessfully","Success",JOptionPane.PLAIN_MESSAGE);
+						}else {
+							
+							JOptionPane.showMessageDialog( frame, "Can not update Student","Error",JOptionPane.WARNING_MESSAGE);
+						}
 
+					}catch (Exception ex) {
+						JOptionPane.showMessageDialog( frame, "Something went wrong","Error",JOptionPane.WARNING_MESSAGE);
+						
+					}
+				}
+			}
+		});
+		btnUpdate.setBounds(235, 232, 85, 21);
+		frame.getContentPane().add(btnUpdate);
+		
+		JButton btnUpdateFind = new JButton("Find");
+		btnUpdateFind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String id = textFieldUpdateStudentId.getText().trim();
+				if(id.isEmpty()) {
+					JOptionPane.showMessageDialog( frame, "Please Add student ID number","Error",JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+
+					try {
+							
+							Student student = studentService.student_get_by_id(id);
+							if(student != null) {
+								textFieldUpdateStudentName.setText(student.getName());
+								textFieldUpdateGrade.setText(student.getGrade());
+								textFieldUpdateAddress.setText(student.getAddress());
+								
+						}else {
+//							textAreaRemove.setText("\n\nSorry, but nothing matched your search \nstudent. Please try again with different \nstudent ID.");
+							JOptionPane.showMessageDialog( frame, "Can not find Student","Error",JOptionPane.WARNING_MESSAGE);
+						}
+
+					}catch (Exception ex) {
+//						textAreaRemove.setText("Something went wrong");
+						JOptionPane.showMessageDialog( frame, "Something went wrong","Error",JOptionPane.WARNING_MESSAGE);
+						
+					}
+				}
+			}
+		});
+		
+		btnUpdateFind.setBounds(362, 55, 64, 21);
+		frame.getContentPane().add(btnUpdateFind);
+	}
 }

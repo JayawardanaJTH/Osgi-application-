@@ -8,7 +8,7 @@ public class SubjectImpl implements ISubject {
 
 	@Override
 	public boolean addSubject(Subject subject) {
-		
+		System.out.println(subject);
 		subjectList.add(subject);
 		return true;
 
@@ -22,7 +22,8 @@ public class SubjectImpl implements ISubject {
 
 			if(subject.getId() == id) {
 
-				newSubject = subject;
+				newSubject.setGrade(subject.getGrade());
+				newSubject.setSubject_name(subject.getSubject_name());
 				return true;
 			}
 		}

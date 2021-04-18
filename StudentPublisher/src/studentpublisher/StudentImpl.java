@@ -48,4 +48,20 @@ public class StudentImpl implements IStudent {
 		return studentList;
 	}
 
+	@Override
+	public boolean updateStudent(String id, Student student) {
+		if(studentList.isEmpty()) {
+			return false;
+		}
+		else {
+			for(Student obj : studentList) {
+				if(obj.getId().equals(id)) {
+					obj = student;
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 }

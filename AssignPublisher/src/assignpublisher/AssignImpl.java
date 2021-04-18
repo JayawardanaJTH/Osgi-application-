@@ -20,19 +20,23 @@ public class AssignImpl implements IAssign {
 	}
 
 	@Override
-	public Assign getAssignByID(int id) {
+	public ArrayList<Assign> getAssignByStudentID(String sId) {
 
+		ArrayList<Assign> assignOfStudent = new ArrayList<>();
+		
 		for(Assign obj : assignDataList) {
 
-			if(1==id) {
-				return obj;
-			}
-			else {
-				return new Assign();
+			if(obj.getStudent().getId().contentEquals(sId)) {
+				assignOfStudent.add(obj);
 			}
 		}
 
-		return new Assign();
+		if(assignOfStudent.isEmpty()) {
+			return null;
+		}
+		else {
+			return assignOfStudent;
+		}
 	}
 
 	@Override

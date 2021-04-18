@@ -12,11 +12,11 @@ public interface IAssign {
 	public boolean addAssign(Assign assign);
 	
 	/**
-	 * get assign data according to id
+	 * get assign data according to student id
 	 * @param id
 	 * @return assign object related to id
 	 */
-	public Assign getAssignByID(int id);
+	public ArrayList<Assign> getAssignByStudentID(String sId);
 	
 	/**
 	 * get all assign data

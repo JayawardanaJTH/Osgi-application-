@@ -7,8 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import assignpublisher.IAssign;
 import studentpublisher.IStudent;
-
+import subjectpublisher.ISubject;
+import teacherpublisher.ITeacher;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -20,11 +22,24 @@ public class MainUI extends JFrame {
 	private JButton btnStudent;
 
 	private IStudent studentService;
-
+	private ISubject subjectService;
+	private IAssign assignService;
+	private ITeacher teacherService;
 	/**
 	 * Create the frame.
 	 */
 	public MainUI(IStudent studentService) {
+		this.studentService = studentService;
+		Initial();
+	}
+	public MainUI(IStudent studentService, ISubject subjectService, IAssign assignService, ITeacher teacherService) {
+		this.studentService = studentService;
+		this.subjectService = subjectService;
+		this.assignService = assignService;
+		this.teacherService = teacherService;
+		Initial();
+	}
+	public void Initial() {
 		setTitle("Amin Panel");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 540, 379);
@@ -56,6 +71,11 @@ public class MainUI extends JFrame {
 		menuPanel.add(btnTeacher);
 		
 		JButton btnAssign = new JButton("Assign");
+		btnAssign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddAssignUI(studentService, subjectService,assignService);
+			}
+		});
 		btnAssign.setBounds(35, 264, 89, 23);
 		menuPanel.add(btnAssign);
 		

@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +41,8 @@ public class UpdateAssignUI {
 	
 	private ArrayList<Student> studentList = new ArrayList<>();
 	private ArrayList<Subject> subjectList = new ArrayList<>();
+	
+	private int selectedRow;
 	/**
 	 * Create the application.
 	 */
@@ -54,20 +57,6 @@ public class UpdateAssignUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
-		assigns = assignService.getAllAssigns();
-		
-		if(assigns != null) {
-			
-			for(Assign obj : assigns) {
-				
-				assignsList.add(new Object[] {
-						obj.getId(),
-						obj.getStudent().getName(),
-						obj.getSubject().getSubject_name()
-				});
-			}
-		}
 		
 		frmUpdateAssign = new JFrame();
 		frmUpdateAssign.setTitle("Update assign");
@@ -105,6 +94,12 @@ public class UpdateAssignUI {
 		panel.add(btnUpdateAssign);
 		
 		JButton btnDeleteAssign = new JButton("Delete assign");
+		btnDeleteAssign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DeleteAssignUI(studentService, subjectService,assignService);
+				frmUpdateAssign.setVisible(false);
+			}
+		});
 		btnDeleteAssign.setBounds(10, 201, 185, 23);
 		panel.add(btnDeleteAssign);
 		
@@ -113,26 +108,31 @@ public class UpdateAssignUI {
 		frmUpdateAssign.getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			assignsList.toArray(new Object[][] {}),
-			new String[] {
-				"ID", "Student", "Subject"
-			}
-		));
+		
 		scrollPane.setViewportView(table);
 		
 		JButton btnSelect = new JButton("Select");
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				int row = table.getSelectedRow();
-				System.out.println("row count"+row);
+				selectedRow = table.getSelectedRow();
+				
+				if(selectedRow < 0) {
+					JOptionPane.showMessageDialog(frmUpdateAssign, "Please select row", "Data missing", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					Assign assign = assigns.get(selectedRow);
+					
+					cmbStudent.setSelectedItem(assign.getStudent().getName());
+				}
 			}
 		});
 		btnSelect.setBounds(318, 128, 89, 23);
 		frmUpdateAssign.getContentPane().add(btnSelect);
 		
 		cmbStudent = new JComboBox();
+		cmbStudent.setEditable(true);
+		cmbStudent.setEnabled(false);
 		cmbStudent.setBounds(295, 162, 179, 28);
 		frmUpdateAssign.getContentPane().add(cmbStudent);
 		
@@ -149,10 +149,39 @@ public class UpdateAssignUI {
 		frmUpdateAssign.getContentPane().add(lblNewLabel);
 		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Assign assign = assigns.get(selectedRow);
+				Subject subject_obj = null;
+				
+				String selected_subject = cmbSubject.getSelectedItem().toString().trim();
+				
+				for(Subject obj : subjectList) {
+					
+					if(obj.getSubject_name().contentEquals(selected_subject)) {
+						subject_obj = obj;
+						break;
+					}
+				}
+				
+				assign.setSubject(subject_obj);
+				
+				if(assignService.updateAssign(assign.getId(), assign)) {
+					JOptionPane.showMessageDialog(frmUpdateAssign, "Update success", "Data Updated", JOptionPane.PLAIN_MESSAGE);
+					
+					table.removeAll();
+					loadTableData();
+				}
+				else {
+					JOptionPane.showMessageDialog(frmUpdateAssign, "Update erro", "Data error", JOptionPane.ERROR_MESSAGE);
+				}
+		}});
 		btnUpdate.setBounds(318, 252, 89, 23);
 		frmUpdateAssign.getContentPane().add(btnUpdate);
 		
 		loadData();
+		loadTableData();
 	}
 	
 	private void loadData() {
@@ -179,5 +208,33 @@ public class UpdateAssignUI {
 				cmbSubject.addItem(obj.getSubject_name());
 			}
 		}
+	}
+	
+	private void loadTableData() {
+		assigns = assignService.getAllAssigns();
+		
+		if(assigns != null) {
+			
+			for(Assign obj : assigns) {
+				
+				assignsList.add(new Object[] {
+						obj.getId(),
+						obj.getStudent().getName(),
+						obj.getSubject().getSubject_name()
+				});
+			}
+		}
+		else {
+			assignsList.add(new Object[] {});
+		}
+		
+		
+		table.setModel(new DefaultTableModel(
+				assignsList.toArray(new Object[][] {}),
+				new String[] {
+					"ID", "Student", "Subject"
+				}
+			));
+		
 	}
 }

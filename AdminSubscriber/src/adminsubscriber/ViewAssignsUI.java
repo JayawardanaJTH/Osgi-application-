@@ -80,6 +80,10 @@ public class ViewAssignsUI {
 		panel.add(btnAddAssign);
 		
 		JButton btnViewAssign = new JButton("View assigns");
+		btnViewAssign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnViewAssign.setBounds(10, 89, 185, 23);
 		panel.add(btnViewAssign);
 		
@@ -94,6 +98,12 @@ public class ViewAssignsUI {
 		panel.add(btnUpdateAssign);
 		
 		JButton btnDeleteAssign = new JButton("Delete assign");
+		btnDeleteAssign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DeleteAssignUI(studentService, subjectService, assignService);
+				frmViewAssigns.setVisible(false);
+			}
+		});
 		btnDeleteAssign.setBounds(10, 201, 185, 23);
 		panel.add(btnDeleteAssign);
 		

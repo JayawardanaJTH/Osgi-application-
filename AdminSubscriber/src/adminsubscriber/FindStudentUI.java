@@ -110,7 +110,6 @@ public class FindStudentUI {
 		frame.getContentPane().add(btnUpdateStudent);
 		
 		btnRemoveStudent = new JButton("Remove Student");
-
 		btnRemoveStudent.setBounds(10, 188, 140, 21);
 		frame.getContentPane().add(btnRemoveStudent);
 		
@@ -138,6 +137,7 @@ public class FindStudentUI {
 				
 				String id = textFieldSearch.getText().trim();
 				if(id.isEmpty()) {
+
 					JOptionPane.showMessageDialog( frame, "Please Add student ID number","Error",JOptionPane.WARNING_MESSAGE);
 				}
 				else {

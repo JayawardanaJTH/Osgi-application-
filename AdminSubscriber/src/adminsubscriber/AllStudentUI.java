@@ -127,7 +127,6 @@ public class AllStudentUI {
 		frame.getContentPane().add(btnUpdateStudent);
 		
 		btnRemoveStudent = new JButton("Remove Student");
-
 		btnRemoveStudent.setBounds(10, 188, 140, 21);
 		frame.getContentPane().add(btnRemoveStudent);
 		

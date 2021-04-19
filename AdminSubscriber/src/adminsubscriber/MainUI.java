@@ -37,8 +37,9 @@ public class MainUI extends JFrame {
 		this.studentService = studentService;
 		Initial();
 	}
-	public MainUI(ISubject subjectService) {
-		this.subjectService = subjectService;
+	
+	public MainUI(ITeacher teacherService) {
+		this.teacherService = teacherService;
 		Initial();
 	}
 	/**
@@ -84,6 +85,11 @@ public class MainUI extends JFrame {
 		menuPanel.add(btnCourse);
 		
 		JButton btnTeacher = new JButton("Teacher");
+		btnTeacher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TeacherUI(teacherService);
+			}
+		});
 		btnTeacher.setBounds(35, 192, 89, 23);
 		menuPanel.add(btnTeacher);
 		

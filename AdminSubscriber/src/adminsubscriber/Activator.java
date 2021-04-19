@@ -26,14 +26,12 @@ public class Activator implements BundleActivator{
 		studentServiceReference = bundleContext.getServiceReference(IStudent.class.getName());
 		assignServiceReference = bundleContext.getServiceReference(IAssign.class.getName());
 		subjectServiceReference = bundleContext.getServiceReference(ISubject.class.getName());
-//		teacherServiceReference = bundleContext.getServiceReference(ITeacher.class.getName());
-
+		teacherServiceReference = bundleContext.getServiceReference(ITeacher.class.getName());
 		
 		studentService = (IStudent) bundleContext.getService(studentServiceReference);
 		assignService = (IAssign) bundleContext.getService(assignServiceReference);
 		subjectService = (ISubject) bundleContext.getService(subjectServiceReference);
-
-//		teacherService = (ITeacher) bundleContext.getService(teacherServiceReference);
+		teacherService = (ITeacher) bundleContext.getService(teacherServiceReference);
 		
 		System.out.println("Admin subscriber is started");	
 		MainUI frame = new MainUI(studentService, subjectService, assignService, teacherService);
@@ -46,7 +44,7 @@ public class Activator implements BundleActivator{
 		
 		bundleContext.ungetService(studentServiceReference);
 		bundleContext.ungetService(assignServiceReference);
-		bundleContext.ungetService(studentServiceReference);
+		bundleContext.ungetService(subjectServiceReference);
 		bundleContext.ungetService(teacherServiceReference);
 	}
 

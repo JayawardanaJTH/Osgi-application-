@@ -33,6 +33,11 @@ public class MainUI extends JFrame {
 	 */
 	
 	
+	public MainUI(ISubject subjectService) {
+		this.subjectService = subjectService;
+		Initial();
+	}
+	
 	public MainUI(IStudent studentService) {
 		this.studentService = studentService;
 		Initial();
@@ -62,7 +67,7 @@ public class MainUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel menuPanel = new JPanel();
-		menuPanel.setBounds(0, 0, 158, 340);
+		menuPanel.setBounds(0, 0, 524, 340);
 		contentPane.add(menuPanel);
 		menuPanel.setLayout(null);
 		
@@ -72,7 +77,7 @@ public class MainUI extends JFrame {
 				new StudentUI(studentService);
 			}
 		});
-		btnStudent.setBounds(35, 48, 89, 23);
+		btnStudent.setBounds(221, 53, 89, 23);
 		menuPanel.add(btnStudent);
 		
 		JButton btnCourse = new JButton("Course");
@@ -81,7 +86,7 @@ public class MainUI extends JFrame {
 				new SubjectUI(subjectService);
 			}
 		});
-		btnCourse.setBounds(35, 120, 89, 23);
+		btnCourse.setBounds(221, 125, 89, 23);
 		menuPanel.add(btnCourse);
 		
 		JButton btnTeacher = new JButton("Teacher");
@@ -90,7 +95,7 @@ public class MainUI extends JFrame {
 				new TeacherUI(teacherService);
 			}
 		});
-		btnTeacher.setBounds(35, 192, 89, 23);
+		btnTeacher.setBounds(221, 197, 89, 23);
 		menuPanel.add(btnTeacher);
 		
 		JButton btnAssign = new JButton("Assign");
@@ -99,17 +104,8 @@ public class MainUI extends JFrame {
 				new AddAssignUI(studentService, subjectService,assignService);
 			}
 		});
-		btnAssign.setBounds(35, 264, 89, 23);
+		btnAssign.setBounds(221, 269, 89, 23);
 		menuPanel.add(btnAssign);
-		
-		JPanel panelBody = new JPanel();
-		panelBody.setBounds(168, 0, 356, 340);
-		contentPane.add(panelBody);
-		panelBody.setLayout(null);
-		
-		JButton btnLogOut = new JButton("Log Out");
-		btnLogOut.setBounds(150, 150, 89, 23);
-		panelBody.add(btnLogOut);
 	}
 
 }

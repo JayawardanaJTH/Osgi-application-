@@ -46,6 +46,8 @@ public class Activator implements BundleActivator{
 		bundleContext.ungetService(assignServiceReference);
 		bundleContext.ungetService(subjectServiceReference);
 		bundleContext.ungetService(teacherServiceReference);
+		
+		System.out.println("Admin subscriber is Stopped");	
 	}
 
 }
